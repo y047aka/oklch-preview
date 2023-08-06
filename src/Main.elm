@@ -1,8 +1,8 @@
 module Main exposing (main)
 
 import Browser exposing (Document)
-import Css exposing (Color, backgroundColor)
-import Html.Styled exposing (div, text)
+import Css exposing (..)
+import Html.Styled exposing (Html, div, text)
 import Html.Styled.Attributes exposing (css)
 
 
@@ -50,13 +50,38 @@ view : Model -> Document Msg
 view _ =
     { title = "Oklch Preview"
     , body =
-        [ div [ css [ backgroundColor (oklch 0.6 0 0) ] ] [ text "Oklch" ] ]
+        [ div
+            [ css
+                [ property "display" "grid"
+                , property "grid-template-columns" "repeat(11, 1fr)"
+                , property "gap" "10px"
+                ]
+            ]
+            (List.map (\l -> Oklch l 0 0 |> tile) (range 0 1))
+        ]
             |> List.map Html.Styled.toUnstyled
     }
 
 
+tile : Oklch -> Html msg
+tile { luminance, chroma, hue } =
+    div
+        [ css
+            [ padding (px 20)
+            , borderRadius (px 10)
+            , backgroundColor (oklch luminance chroma hue)
+            , fontFamily sansSerif
+            ]
+        ]
+        [ text "Oklch" ]
+
+
 
 -- OKLCH
+
+
+type alias Oklch =
+    { luminance : Float, chroma : Float, hue : Float }
 
 
 oklch : Float -> Float -> Float -> Color
@@ -75,3 +100,21 @@ oklch luminance chroma hue =
 numericalPercentageToString : Float -> String
 numericalPercentageToString value =
     String.fromFloat (value * 100) ++ "%"
+
+
+
+-- HELPERS
+
+
+range : Float -> Float -> List Float
+range lo hi =
+    rangeHelp lo hi 0.1 []
+
+
+rangeHelp : Float -> Float -> Float -> List Float -> List Float
+rangeHelp lo hi step list =
+    if lo <= hi then
+        rangeHelp lo (hi - step) step (hi :: list)
+
+    else
+        list
