@@ -53,22 +53,49 @@ view _ =
         [ div
             [ css
                 [ property "display" "grid"
-                , property "grid-template-columns" "repeat(11, 1fr)"
-                , property "gap" "10px"
+                , property "grid-template-columns" "repeat(12, 1fr)"
                 ]
             ]
-            (List.map (\l -> Oklch l 0 0 |> tile) (range 0 1))
+            (List.map (div [])
+                [ List.map card monoSteps
+                , List.map card (oklchSteps { hue = 0 })
+                , List.map card (oklchSteps { hue = 30 })
+                , List.map card (oklchSteps { hue = 60 })
+                , List.map card (oklchSteps { hue = 90 })
+                , List.map card (oklchSteps { hue = 120 })
+                , List.map card (oklchSteps { hue = 150 })
+                , List.map card (oklchSteps { hue = 180 })
+                , List.map card (oklchSteps { hue = 210 })
+                , List.map card (oklchSteps { hue = 240 })
+                , List.map card (oklchSteps { hue = 270 })
+                , List.map card (oklchSteps { hue = 300 })
+                ]
+            )
         ]
             |> List.map Html.Styled.toUnstyled
     }
 
 
-tile : Oklch -> Html msg
-tile { luminance, chroma, hue } =
+oklchSteps : { hue : Float } -> List Oklch
+oklchSteps { hue } =
+    let
+        chromaSteps =
+            [ 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.3, 0.3, 0.25, 0.2, 0.2 ]
+    in
+    List.map2 (\l c -> Oklch l c hue) (List.reverse <| range 0 1) chromaSteps
+
+
+monoSteps : List Oklch
+monoSteps =
+    List.map (\l -> Oklch l 0 0) (range 0 1)
+        |> List.reverse
+
+
+card : Oklch -> Html msg
+card { luminance, chroma, hue } =
     div
         [ css
             [ padding (px 20)
-            , borderRadius (px 10)
             , backgroundColor (oklch luminance chroma hue)
             , fontFamily sansSerif
             ]
