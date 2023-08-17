@@ -83,12 +83,12 @@ oklchSteps { hue } =
         chromaSteps =
             [ 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.3, 0.3, 0.25, 0.2, 0.2 ]
     in
-    List.map2 (\l c -> Oklch l c hue) (List.reverse <| range 0 1) chromaSteps
+    List.map2 (\l c -> Oklch l c hue) (List.reverse <| range 0 1 0.1) chromaSteps
 
 
 monoSteps : List Oklch
 monoSteps =
-    List.map (\l -> Oklch l 0 0) (range 0 1)
+    List.map (\l -> Oklch l 0 0) (range 0 1 0.1)
         |> List.reverse
 
 
@@ -134,9 +134,9 @@ numericalPercentageToString value =
 -- HELPERS
 
 
-range : Float -> Float -> List Float
-range lo hi =
-    rangeHelp lo hi 0.1 []
+range : Float -> Float -> Float -> List Float
+range lo hi step =
+    rangeHelp lo hi step []
 
 
 rangeHelp : Float -> Float -> Float -> List Float -> List Float
