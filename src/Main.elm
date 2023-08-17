@@ -53,7 +53,7 @@ view _ =
         [ div
             [ css
                 [ property "display" "grid"
-                , property "grid-template-columns" "repeat(12, 1fr)"
+                , property "grid-template-columns" "repeat(13, 1fr)"
                 ]
             ]
             (List.map (div [])
@@ -69,6 +69,7 @@ view _ =
                 , List.map card (oklchSteps { hue = 240 })
                 , List.map card (oklchSteps { hue = 270 })
                 , List.map card (oklchSteps { hue = 300 })
+                , List.map card (oklchSteps { hue = 330 })
                 ]
             )
         ]
