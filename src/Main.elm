@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Browser exposing (Document)
 import Css exposing (..)
+import HSL
 import Html.Styled exposing (Html, div, text)
 import Html.Styled.Attributes exposing (css)
 
@@ -50,7 +51,8 @@ view : Model -> Document Msg
 view _ =
     { title = "Oklch Preview"
     , body =
-        [ div
+        [ HSL.vividPicker
+        , div
             [ css
                 [ property "display" "grid"
                 , property "grid-template-columns" "repeat(13, 1fr)"
