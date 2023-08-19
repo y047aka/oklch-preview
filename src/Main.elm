@@ -2,9 +2,9 @@ module Main exposing (main)
 
 import Browser exposing (Document)
 import Css exposing (..)
-import HSL
 import Html.Styled
 import Oklch
+import VividPicker
 
 
 main : Program () Model Msg
@@ -51,7 +51,7 @@ view : Model -> Document Msg
 view _ =
     { title = "Oklch Preview"
     , body =
-        [ HSL.vividPicker
+        [ VividPicker.view
         , Oklch.view
         ]
             |> List.map Html.Styled.toUnstyled

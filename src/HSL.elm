@@ -1,22 +1,6 @@
-module HSL exposing (vividPicker)
+module HSL exposing (hslSteps, monoSteps)
 
-import Css exposing (..)
-import Html.Styled exposing (Html, div)
-import Html.Styled.Attributes exposing (css)
-
-
-vividPicker : Html msg
-vividPicker =
-    div
-        [ css
-            [ property "display" "grid"
-            , property "grid-template-columns" "repeat(361, 1fr)"
-            ]
-        ]
-        (List.map (div []) <|
-            List.map cell monoSteps
-                :: List.map (\hue -> List.map cell (hslSteps { hue = toFloat hue * 1 })) (List.range 0 359)
-        )
+import Css exposing (Color, hsl)
 
 
 hslSteps : { hue : Float } -> List Color
@@ -28,18 +12,6 @@ monoSteps : List Color
 monoSteps =
     List.map (\l -> hsl 0 0 l) (range 0 1 0.005)
         |> List.reverse
-
-
-cell : Color -> Html msg
-cell hslColor =
-    div
-        [ css
-            [ padding2 (px 1) zero
-            , backgroundColor hslColor
-            , fontFamily sansSerif
-            ]
-        ]
-        []
 
 
 
