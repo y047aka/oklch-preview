@@ -51,7 +51,8 @@ view : Model -> Document Msg
 view _ =
     { title = "Oklch Preview"
     , body =
-        [ VividPicker.view
+        [ VividPicker.hsl
+        , VividPicker.oklch
         , Oklch.view
         ]
             |> List.map Html.Styled.toUnstyled
