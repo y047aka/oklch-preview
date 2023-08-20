@@ -32,17 +32,16 @@ hsluv =
     let
         monoSteps =
             reverseRange 0 1 0.005
-                |> List.map (\l -> hsluvToRgba { hue = 0, saturation = 0, lightness = l * 100, alpha = 1 })
+                |> List.map (\l -> hsluvToRgba ( 0, 0, l * 100 ))
 
         hslSteps { hue } =
             reverseRange 0 1 0.005
-                |> List.map (\l -> hsluvToRgba { hue = hue, saturation = 100, lightness = l * 100, alpha = 1 })
+                |> List.map (\l -> hsluvToRgba ( hue, 100, l * 100 ))
 
         hsluvToRgba =
-            HSLuv.hsluv360
-                >> HSLuv.toRgba
-                >> (\{ red, green, blue, alpha } ->
-                        Css.rgba (Basics.round <| red * 256) (Basics.round <| green * 256) (Basics.round <| blue * 256) alpha
+            HSLuv.hsluvToRgb
+                >> (\( red, green, blue ) ->
+                        Css.rgba (Basics.round <| red * 256) (Basics.round <| green * 256) (Basics.round <| blue * 256) 1
                    )
     in
     vividPicker
