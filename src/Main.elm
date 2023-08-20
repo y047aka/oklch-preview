@@ -52,6 +52,7 @@ view _ =
     { title = "Oklch Preview"
     , body =
         [ VividPicker.hsl
+        , VividPicker.hsluv
         , VividPicker.oklch
         , Oklch.view
         ]
