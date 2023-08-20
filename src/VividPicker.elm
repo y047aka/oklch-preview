@@ -10,11 +10,12 @@ hsl : Html msg
 hsl =
     let
         monoSteps =
-            List.map (\l -> Css.hsl 0 0 l) (range 0 1 0.005)
-                |> List.reverse
+            reverseRange 0 1 0.005
+                |> List.map (\l -> Css.hsl 0 0 l)
 
         hslSteps { hue } =
-            List.map (\l -> Css.hsl hue 1 l) (List.reverse <| range 0 1 0.005)
+            reverseRange 0 1 0.005
+                |> List.map (\l -> Css.hsl hue 1 l)
     in
     vividPicker
         { monoSteps = monoSteps
@@ -26,11 +27,12 @@ oklch : Html msg
 oklch =
     let
         monoSteps =
-            List.map (\l -> Oklch.oklch l 0 0) (range 0 1 0.005)
-                |> List.reverse
+            reverseRange 0 1 0.005
+                |> List.map (\l -> Oklch.oklch l 0 0)
 
         toColorSteps { hue } =
-            List.map (\l -> Oklch.oklch l 0.2 hue) (List.reverse <| range 0 1 0.005)
+            reverseRange 0 1 0.005
+                |> List.map (\l -> Oklch.oklch l 0.2 hue)
     in
     vividPicker
         { monoSteps = monoSteps
@@ -80,3 +82,9 @@ rangeHelp lo hi step list =
 
     else
         list
+
+
+reverseRange : Float -> Float -> Float -> List Float
+reverseRange lo hi step =
+    range lo hi step
+        |> List.reverse
