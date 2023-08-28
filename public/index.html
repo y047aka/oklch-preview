@@ -6,9 +6,18 @@
     <title>Oksch Preview</title>
   </head>
   <body>
+    <script src="colorconversion.js"></script>
     <script src="build/main.js"></script>
     <script>
-      Elm.Main.init({ node: document.body });
+      const app = Elm.Main.init({ node: document.body });
+
+      app.ports.sendMessage.subscribe(function(d) {
+        const monoSteps = d.monoSteps.map ((okhsl) => okhsl_to_srgb(okhsl.h, okhsl.s, okhsl.l));
+        const colorSteps = d.colorSteps.map ((okhsls) =>
+          okhsls.map ((okhsl) => okhsl_to_srgb(okhsl.h / 360, okhsl.s, okhsl.l))
+        );
+        app.ports.messageReceiver.send({ monoSteps: monoSteps, colorSteps: colorSteps });
+      });
     </script>
   </body>
 </html>

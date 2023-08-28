@@ -1,4 +1,4 @@
-module VividPicker exposing (hsl, hsluv, oklch)
+module VividPicker exposing (hsl, hsluv, okhsl, oklch)
 
 {-| A color picker for the Vivid color space.
 -}
@@ -50,6 +50,14 @@ hsluv =
         }
 
 
+okhsl : List Color -> List (List Color) -> Html msg
+okhsl monoSteps colorSteps_ =
+    vividPicker_
+        { monoSteps = monoSteps
+        , colorSteps = colorSteps_
+        }
+
+
 oklch : Html msg
 oklch =
     let
@@ -77,7 +85,21 @@ vividPicker { monoSteps, toColorSteps } =
         ]
         (List.map (div []) <|
             List.map cell monoSteps
-                :: List.map (\hue -> List.map cell (toColorSteps { hue = toFloat hue * 1 })) (List.range 0 359)
+                :: List.map (\hue -> List.map cell (toColorSteps { hue = toFloat hue })) (List.range 0 359)
+        )
+
+
+vividPicker_ : { monoSteps : List Color, colorSteps : List (List Color) } -> Html msg
+vividPicker_ { monoSteps, colorSteps } =
+    div
+        [ css
+            [ property "display" "grid"
+            , property "grid-template-columns" "repeat(361, 1fr)"
+            ]
+        ]
+        (List.map (div []) <|
+            List.map cell monoSteps
+                :: List.map (List.map cell) colorSteps
         )
 
 
