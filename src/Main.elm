@@ -101,9 +101,7 @@ view : Model -> Document Msg
 view m =
     { title = "Oklch Preview"
     , body =
-        [ VividPicker.hsl
-        , VividPicker.hsluv
-        , VividPicker.okhsl m.monoSteps m.colorSteps
+        [ VividPicker.okhsl m.monoSteps m.colorSteps
         , VividPicker.oklch
         , Oklch.view
         ]
