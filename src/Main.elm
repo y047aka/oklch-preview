@@ -98,11 +98,11 @@ subscriptions _ =
 
 
 view : Model -> Document Msg
-view m =
+view _ =
     { title = "Oklch Preview"
     , body =
-        [ VividPicker.okhsl m.monoSteps m.colorSteps
-        , VividPicker.oklch
+        [ VividPicker.oklch
+        , VividPicker.okhsl
         , Oklch.view
         ]
             |> List.map Html.Styled.toUnstyled

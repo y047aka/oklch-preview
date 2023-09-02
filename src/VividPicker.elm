@@ -1,8 +1,9 @@
-module VividPicker exposing (hsl, hsluv, okhsl, oklch)
+module VividPicker exposing (hsl, hsluv, okhsl, okhsl_port, oklch)
 
 {-| A color picker for the Vivid color space.
 -}
 
+import ColorConversion
 import Css exposing (..)
 import HSLuv
 import Html.Styled exposing (Html, div)
@@ -50,8 +51,8 @@ hsluv =
         }
 
 
-okhsl : List Color -> List (List Color) -> Html msg
-okhsl monoSteps colorSteps_ =
+okhsl_port : List Color -> List (List Color) -> Html msg
+okhsl_port monoSteps colorSteps_ =
     vividPicker_
         { monoSteps = monoSteps
         , colorSteps = colorSteps_
@@ -68,6 +69,26 @@ oklch =
         toColorSteps { hue } =
             reverseRange 0 1 0.005
                 |> List.map (\l -> Oklch.oklch l 0.2 hue)
+    in
+    vividPicker
+        { monoSteps = monoSteps
+        , toColorSteps = toColorSteps
+        }
+
+
+okhsl : Html msg
+okhsl =
+    let
+        monoSteps =
+            reverseRange 0 1 0.005
+                |> List.map (\l -> ColorConversion.okhslToSrgb ( 0, 0, l ) |> toCssColor)
+
+        toColorSteps { hue } =
+            reverseRange 0 1 0.005
+                |> List.map (\l -> ColorConversion.okhslToSrgb ( hue / 360, 1, l ) |> toCssColor)
+
+        toCssColor ( r, g, b ) =
+            Css.rgb (Basics.round r) (Basics.round g) (Basics.round b)
     in
     vividPicker
         { monoSteps = monoSteps
