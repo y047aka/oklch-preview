@@ -24,7 +24,7 @@ hsl =
     in
     vividPicker
         { monoSteps = monoSteps
-        , toColorSteps = hslSteps
+        , colorGrid = List.map (\hue -> hslSteps { hue = toFloat hue }) (List.range 0 359)
         }
 
 
@@ -47,7 +47,7 @@ hsluv =
     in
     vividPicker
         { monoSteps = monoSteps
-        , toColorSteps = hslSteps
+        , colorGrid = List.map (\hue -> hslSteps { hue = toFloat hue }) (List.range 0 359)
         }
 
 
@@ -58,13 +58,13 @@ oklch =
             reverseRange 0 1 0.005
                 |> List.map (\l -> Oklch.oklch l 0 0)
 
-        toColorSteps { hue } =
+        oklchSteps { hue } =
             reverseRange 0 1 0.005
                 |> List.map (\l -> Oklch.oklch l 0.2 hue)
     in
     vividPicker
         { monoSteps = monoSteps
-        , toColorSteps = toColorSteps
+        , colorGrid = List.map (\hue -> oklchSteps { hue = toFloat hue }) (List.range 0 359)
         }
 
 
@@ -75,50 +75,30 @@ okhsl =
             reverseRange 0 1 0.005
                 |> List.map (\l -> Okhsl 0 0 l 1 |> Okhsl.toCssColor)
 
-        toColorSteps { hue } =
+        okhslSteps { hue } =
             reverseRange 0 1 0.005
                 |> List.map (\l -> Okhsl (hue / 360) 1 l 1 |> Okhsl.toCssColor)
     in
     vividPicker
         { monoSteps = monoSteps
-        , toColorSteps = toColorSteps
+        , colorGrid = List.map (\hue -> okhslSteps { hue = toFloat hue }) (List.range 0 359)
         }
 
 
 okhsl_port : List Color -> List (List Color) -> Html msg
-okhsl_port monoSteps_ colorSteps_ =
-    let
-        vividPicker_ : { monoSteps : List Color, colorSteps : List (List Color) } -> Html msg
-        vividPicker_ { monoSteps, colorSteps } =
-            div
-                [ css
-                    [ property "display" "grid"
-                    , property "grid-template-columns" "repeat(361, 1fr)"
-                    ]
-                ]
-                (List.map (div []) <|
-                    List.map cell monoSteps
-                        :: List.map (List.map cell) colorSteps
-                )
-    in
-    vividPicker_
-        { monoSteps = monoSteps_
-        , colorSteps = colorSteps_
-        }
+okhsl_port monoSteps colorGrid =
+    vividPicker { monoSteps = monoSteps, colorGrid = colorGrid }
 
 
-vividPicker : { monoSteps : List Color, toColorSteps : { hue : Float } -> List Color } -> Html msg
-vividPicker { monoSteps, toColorSteps } =
+vividPicker : { monoSteps : List Color, colorGrid : List (List Color) } -> Html msg
+vividPicker { monoSteps, colorGrid } =
     div
         [ css
             [ property "display" "grid"
             , property "grid-template-columns" "repeat(361, 1fr)"
             ]
         ]
-        (List.map (div []) <|
-            List.map cell monoSteps
-                :: List.map (\hue -> List.map cell (toColorSteps { hue = toFloat hue })) (List.range 0 359)
-        )
+        (List.map (div []) (List.map (List.map cell) (monoSteps :: colorGrid)))
 
 
 cell : ColorValue compatible -> Html msg
