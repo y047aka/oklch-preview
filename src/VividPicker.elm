@@ -92,13 +92,20 @@ okhsl_port monoSteps colorGrid =
 
 vividPicker : { monoSteps : List Color, colorGrid : List (List Color) } -> Html msg
 vividPicker { monoSteps, colorGrid } =
+    let
+        grid =
+            monoSteps :: colorGrid
+
+        gridTemplateColumns =
+            "repeat(" ++ (String.fromInt <| List.length grid) ++ ", 1fr)"
+    in
     div
         [ css
             [ property "display" "grid"
-            , property "grid-template-columns" "repeat(361, 1fr)"
+            , property "grid-template-columns" gridTemplateColumns
             ]
         ]
-        (List.map (div []) (List.map (List.map cell) (monoSteps :: colorGrid)))
+        (List.map (div []) (List.map (List.map cell) grid))
 
 
 cell : ColorValue compatible -> Html msg
