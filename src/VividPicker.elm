@@ -11,8 +11,8 @@ import Okhsl exposing (Okhsl)
 import Oklch
 
 
-hsl : Html msg
-hsl =
+hsl : { hueSteps : Int } -> Html msg
+hsl { hueSteps } =
     let
         monoSteps =
             reverseRange 0 1 0.005
@@ -24,12 +24,12 @@ hsl =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> hslSteps { hue = toFloat hue }) (List.range 0 359)
+        , colorGrid = List.map (\hue -> hslSteps { hue = toFloat hue }) (List.range 0 (hueSteps - 1))
         }
 
 
-hsluv : Html msg
-hsluv =
+hsluv : { hueSteps : Int } -> Html msg
+hsluv { hueSteps } =
     let
         monoSteps =
             reverseRange 0 1 0.005
@@ -47,12 +47,12 @@ hsluv =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> hslSteps { hue = toFloat hue }) (List.range 0 359)
+        , colorGrid = List.map (\hue -> hslSteps { hue = toFloat hue }) (List.range 0 (hueSteps - 1))
         }
 
 
-oklch : Html msg
-oklch =
+oklch : { hueSteps : Int } -> Html msg
+oklch { hueSteps } =
     let
         monoSteps =
             reverseRange 0 1 0.005
@@ -64,12 +64,12 @@ oklch =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> oklchSteps { hue = toFloat hue }) (List.range 0 359)
+        , colorGrid = List.map (\hue -> oklchSteps { hue = toFloat hue }) (List.range 0 (hueSteps - 1))
         }
 
 
-okhsl : Html msg
-okhsl =
+okhsl : { hueSteps : Int } -> Html msg
+okhsl { hueSteps } =
     let
         monoSteps =
             reverseRange 0 1 0.005
@@ -81,7 +81,7 @@ okhsl =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> okhslSteps { hue = toFloat hue }) (List.range 0 359)
+        , colorGrid = List.map (\hue -> okhslSteps { hue = toFloat hue }) (List.range 0 (hueSteps - 1))
         }
 
 
