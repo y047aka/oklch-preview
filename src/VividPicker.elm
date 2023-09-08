@@ -24,7 +24,7 @@ hsl { hueSteps } =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> hslSteps { hue = toFloat hue }) (List.range 0 (hueSteps - 1))
+        , colorGrid = List.map (\hue -> hslSteps { hue = hue }) (range 0 359 (360 / toFloat hueSteps))
         }
 
 
@@ -47,7 +47,7 @@ hsluv { hueSteps } =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> hslSteps { hue = toFloat hue }) (List.range 0 (hueSteps - 1))
+        , colorGrid = List.map (\hue -> hslSteps { hue = hue }) (range 0 359 (360 / toFloat hueSteps))
         }
 
 
@@ -64,7 +64,7 @@ oklch { hueSteps } =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> oklchSteps { hue = toFloat hue }) (List.range 0 (hueSteps - 1))
+        , colorGrid = List.map (\hue -> oklchSteps { hue = hue }) (range 0 359 (360 / toFloat hueSteps))
         }
 
 
@@ -81,7 +81,7 @@ okhsl { hueSteps } =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> okhslSteps { hue = toFloat hue }) (List.range 0 (hueSteps - 1))
+        , colorGrid = List.map (\hue -> okhslSteps { hue = hue }) (range 0 359 (360 / toFloat hueSteps))
         }
 
 
