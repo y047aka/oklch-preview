@@ -17,15 +17,14 @@ hsl { hueSteps, lightnessSteps } =
         lSteps =
             reverseRange 0 1 (1 / toFloat lightnessSteps)
 
-        monoSteps =
-            List.map (\l -> Css.hsl 0 0 l) lSteps
-
         toHslSteps hue =
             List.map (\l -> Css.hsl hue 1 l) lSteps
     in
     vividPicker
-        { monoSteps = monoSteps
-        , colorGrid = List.map toHslSteps (range 0 359 (360 / toFloat hueSteps))
+        { monoSteps = List.map (\l -> Css.hsl 0 0 l) lSteps
+        , colorGrid =
+            range 0 359 (360 / toFloat hueSteps)
+                |> List.map toHslSteps
         }
 
 
@@ -34,9 +33,6 @@ hsluv { hueSteps, lightnessSteps } =
     let
         lSteps =
             reverseRange 0 1 (1 / toFloat lightnessSteps)
-
-        monoSteps =
-            List.map (\l -> hsluvToRgba ( 0, 0, l * 100 )) lSteps
 
         toHslSteps hue =
             List.map (\l -> hsluvToRgba ( hue, 100, l * 100 )) lSteps
@@ -48,8 +44,10 @@ hsluv { hueSteps, lightnessSteps } =
                    )
     in
     vividPicker
-        { monoSteps = monoSteps
-        , colorGrid = List.map toHslSteps (range 0 359 (360 / toFloat hueSteps))
+        { monoSteps = List.map (\l -> hsluvToRgba ( 0, 0, l * 100 )) lSteps
+        , colorGrid =
+            range 0 359 (360 / toFloat hueSteps)
+                |> List.map toHslSteps
         }
 
 
@@ -59,15 +57,14 @@ oklch { hueSteps, luminanceSteps } =
         lSteps =
             reverseRange 0 1 (1 / toFloat luminanceSteps)
 
-        monoSteps =
-            List.map (\l -> Oklch.oklch l 0 0) lSteps
-
         toOklchSteps hue =
             List.map (\l -> Oklch.oklch l 0.2 hue) lSteps
     in
     vividPicker
-        { monoSteps = monoSteps
-        , colorGrid = List.map toOklchSteps (range 0 359 (360 / toFloat hueSteps))
+        { monoSteps = List.map (\l -> Oklch.oklch l 0 0) lSteps
+        , colorGrid =
+            range 0 359 (360 / toFloat hueSteps)
+                |> List.map toOklchSteps
         }
 
 
@@ -77,15 +74,14 @@ okhsl { hueSteps, luminanceSteps } =
         lSteps =
             reverseRange 0 1 (1 / toFloat luminanceSteps)
 
-        monoSteps =
-            List.map (\l -> Okhsl 0 0 l 1 |> Okhsl.toCssColor) lSteps
-
         toOkhslSteps hue =
             List.map (\l -> Okhsl (hue / 360) 1 l 1 |> Okhsl.toCssColor) lSteps
     in
     vividPicker
-        { monoSteps = monoSteps
-        , colorGrid = List.map toOkhslSteps (range 0 359 (360 / toFloat hueSteps))
+        { monoSteps = List.map (\l -> Okhsl 0 0 l 1 |> Okhsl.toCssColor) lSteps
+        , colorGrid =
+            range 0 359 (360 / toFloat hueSteps)
+                |> List.map toOkhslSteps
         }
 
 
