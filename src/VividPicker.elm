@@ -20,12 +20,12 @@ hsl { hueSteps, lightnessSteps } =
         monoSteps =
             List.map (\l -> Css.hsl 0 0 l) lSteps
 
-        hslSteps { hue } =
+        toHslSteps hue =
             List.map (\l -> Css.hsl hue 1 l) lSteps
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> hslSteps { hue = hue }) (range 0 359 (360 / toFloat hueSteps))
+        , colorGrid = List.map toHslSteps (range 0 359 (360 / toFloat hueSteps))
         }
 
 
@@ -38,7 +38,7 @@ hsluv { hueSteps, lightnessSteps } =
         monoSteps =
             List.map (\l -> hsluvToRgba ( 0, 0, l * 100 )) lSteps
 
-        hslSteps { hue } =
+        toHslSteps hue =
             List.map (\l -> hsluvToRgba ( hue, 100, l * 100 )) lSteps
 
         hsluvToRgba =
@@ -49,7 +49,7 @@ hsluv { hueSteps, lightnessSteps } =
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> hslSteps { hue = hue }) (range 0 359 (360 / toFloat hueSteps))
+        , colorGrid = List.map toHslSteps (range 0 359 (360 / toFloat hueSteps))
         }
 
 
@@ -62,12 +62,12 @@ oklch { hueSteps, luminanceSteps } =
         monoSteps =
             List.map (\l -> Oklch.oklch l 0 0) lSteps
 
-        oklchSteps { hue } =
+        toOklchSteps hue =
             List.map (\l -> Oklch.oklch l 0.2 hue) lSteps
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> oklchSteps { hue = hue }) (range 0 359 (360 / toFloat hueSteps))
+        , colorGrid = List.map toOklchSteps (range 0 359 (360 / toFloat hueSteps))
         }
 
 
@@ -80,12 +80,12 @@ okhsl { hueSteps, luminanceSteps } =
         monoSteps =
             List.map (\l -> Okhsl 0 0 l 1 |> Okhsl.toCssColor) lSteps
 
-        okhslSteps { hue } =
+        toOkhslSteps hue =
             List.map (\l -> Okhsl (hue / 360) 1 l 1 |> Okhsl.toCssColor) lSteps
     in
     vividPicker
         { monoSteps = monoSteps
-        , colorGrid = List.map (\hue -> okhslSteps { hue = hue }) (range 0 359 (360 / toFloat hueSteps))
+        , colorGrid = List.map toOkhslSteps (range 0 359 (360 / toFloat hueSteps))
         }
 
 
