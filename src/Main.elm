@@ -53,8 +53,8 @@ view : Model -> Document Msg
 view _ =
     { title = "Oklch Preview"
     , body =
-        [ VividPicker.oklch { hueSteps = 360 }
-        , VividPicker.okhsl { hueSteps = 360 }
+        [ VividPicker.oklch { hueSteps = 360, luminanceSteps = 200 }
+        , VividPicker.okhsl { hueSteps = 360, luminanceSteps = 200 }
         , Oklch.view
         ]
             |> List.map Html.Styled.toUnstyled

@@ -11,16 +11,17 @@ import Okhsl exposing (Okhsl)
 import Oklch
 
 
-hsl : { hueSteps : Int } -> Html msg
-hsl { hueSteps } =
+hsl : { hueSteps : Int, lightnessSteps : Int } -> Html msg
+hsl { hueSteps, lightnessSteps } =
     let
+        lSteps =
+            reverseRange 0 1 (1 / toFloat lightnessSteps)
+
         monoSteps =
-            reverseRange 0 1 0.005
-                |> List.map (\l -> Css.hsl 0 0 l)
+            List.map (\l -> Css.hsl 0 0 l) lSteps
 
         hslSteps { hue } =
-            reverseRange 0 1 0.005
-                |> List.map (\l -> Css.hsl hue 1 l)
+            List.map (\l -> Css.hsl hue 1 l) lSteps
     in
     vividPicker
         { monoSteps = monoSteps
@@ -28,16 +29,17 @@ hsl { hueSteps } =
         }
 
 
-hsluv : { hueSteps : Int } -> Html msg
-hsluv { hueSteps } =
+hsluv : { hueSteps : Int, lightnessSteps : Int } -> Html msg
+hsluv { hueSteps, lightnessSteps } =
     let
+        lSteps =
+            reverseRange 0 1 (1 / toFloat lightnessSteps)
+
         monoSteps =
-            reverseRange 0 1 0.005
-                |> List.map (\l -> hsluvToRgba ( 0, 0, l * 100 ))
+            List.map (\l -> hsluvToRgba ( 0, 0, l * 100 )) lSteps
 
         hslSteps { hue } =
-            reverseRange 0 1 0.005
-                |> List.map (\l -> hsluvToRgba ( hue, 100, l * 100 ))
+            List.map (\l -> hsluvToRgba ( hue, 100, l * 100 )) lSteps
 
         hsluvToRgba =
             HSLuv.hsluvToRgb
@@ -51,16 +53,17 @@ hsluv { hueSteps } =
         }
 
 
-oklch : { hueSteps : Int } -> Html msg
-oklch { hueSteps } =
+oklch : { hueSteps : Int, luminanceSteps : Int } -> Html msg
+oklch { hueSteps, luminanceSteps } =
     let
+        lSteps =
+            reverseRange 0 1 (1 / toFloat luminanceSteps)
+
         monoSteps =
-            reverseRange 0 1 0.005
-                |> List.map (\l -> Oklch.oklch l 0 0)
+            List.map (\l -> Oklch.oklch l 0 0) lSteps
 
         oklchSteps { hue } =
-            reverseRange 0 1 0.005
-                |> List.map (\l -> Oklch.oklch l 0.2 hue)
+            List.map (\l -> Oklch.oklch l 0.2 hue) lSteps
     in
     vividPicker
         { monoSteps = monoSteps
@@ -68,16 +71,17 @@ oklch { hueSteps } =
         }
 
 
-okhsl : { hueSteps : Int } -> Html msg
-okhsl { hueSteps } =
+okhsl : { hueSteps : Int, luminanceSteps : Int } -> Html msg
+okhsl { hueSteps, luminanceSteps } =
     let
+        lSteps =
+            reverseRange 0 1 (1 / toFloat luminanceSteps)
+
         monoSteps =
-            reverseRange 0 1 0.005
-                |> List.map (\l -> Okhsl 0 0 l 1 |> Okhsl.toCssColor)
+            List.map (\l -> Okhsl 0 0 l 1 |> Okhsl.toCssColor) lSteps
 
         okhslSteps { hue } =
-            reverseRange 0 1 0.005
-                |> List.map (\l -> Okhsl (hue / 360) 1 l 1 |> Okhsl.toCssColor)
+            List.map (\l -> Okhsl (hue / 360) 1 l 1 |> Okhsl.toCssColor) lSteps
     in
     vividPicker
         { monoSteps = monoSteps
