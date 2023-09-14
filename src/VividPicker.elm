@@ -98,14 +98,20 @@ vividPicker { monoSteps, colorGrid } =
 
         gridTemplateColumns =
             "repeat(" ++ (String.fromInt <| List.length grid) ++ ", 1fr)"
+
+        gridTemplateRows =
+            "repeat(" ++ (String.fromInt <| List.length monoSteps) ++ ", 1fr)"
     in
     div
         [ css
-            [ property "display" "grid"
+            [ minHeight (px 400)
+            , property "display" "grid"
             , property "grid-template-columns" gridTemplateColumns
+            , property "grid-template-rows" gridTemplateRows
+            , property "grid-auto-flow" "column"
             ]
         ]
-        (List.map (div []) (List.map (List.map cell) grid))
+        (List.map cell (List.concat grid))
 
 
 cell : ColorValue compatible -> Html msg
