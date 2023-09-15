@@ -2,8 +2,11 @@ module Main exposing (main)
 
 import Browser exposing (Document)
 import Css exposing (..)
-import Html.Styled
+import Html.Styled exposing (header, input, label, text)
+import Html.Styled.Attributes exposing (css, type_, value)
+import Html.Styled.Events exposing (onInput)
 import Oklch
+import String exposing (toInt)
 import VividPicker
 
 
@@ -22,27 +25,37 @@ main =
 
 
 type alias Model =
-    {}
+    { hueSteps : Int
+    , lSteps : Int
+    }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( {}, Cmd.none )
+    ( { hueSteps = 12
+      , lSteps = 10
+      }
+    , Cmd.none
+    )
 
 
 
 -- UPDATE
 
 
-type alias Msg =
-    ()
+type Msg
+    = UpdateHueSteps String
+    | UpdateLSteps String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        _ ->
-            ( model, Cmd.none )
+        UpdateHueSteps value ->
+            ( { model | hueSteps = Maybe.withDefault model.hueSteps (toInt value) }, Cmd.none )
+
+        UpdateLSteps value ->
+            ( { model | lSteps = Maybe.withDefault model.lSteps (toInt value) }, Cmd.none )
 
 
 
@@ -50,11 +63,17 @@ update msg model =
 
 
 view : Model -> Document Msg
-view _ =
+view { hueSteps, lSteps } =
     { title = "Oklch Preview"
     , body =
-        [ VividPicker.oklch { hueSteps = 360, luminanceSteps = 200 }
-        , VividPicker.okhsl { hueSteps = 360, luminanceSteps = 200 }
+        [ header [ css [ padding2 (px 10) zero, displayFlex, property "column-gap" "1em" ] ]
+            [ label [ css [ displayFlex, alignItems center, property "column-gap" "0.5em" ] ]
+                [ text "hue", input [ type_ "number", value (String.fromInt hueSteps), onInput UpdateHueSteps ] [] ]
+            , label [ css [ displayFlex, alignItems center, property "column-gap" "5px" ] ]
+                [ text "lightness / luminance", input [ type_ "number", value (String.fromInt lSteps), onInput UpdateLSteps ] [] ]
+            ]
+        , VividPicker.oklch { hueSteps = hueSteps, luminanceSteps = lSteps }
+        , VividPicker.okhsl { hueSteps = hueSteps, luminanceSteps = lSteps }
         , Oklch.view
         ]
             |> List.map Html.Styled.toUnstyled
