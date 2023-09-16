@@ -72,8 +72,8 @@ view { hueSteps, lSteps } =
             , label [ css [ displayFlex, alignItems center, property "column-gap" "5px" ] ]
                 [ text "lightness / luminance", input [ type_ "number", value (String.fromInt lSteps), onInput UpdateLSteps ] [] ]
             ]
-        , VividPicker.oklch { hueSteps = hueSteps, luminanceSteps = lSteps }
-        , VividPicker.okhsl { hueSteps = hueSteps, luminanceSteps = lSteps }
+        , VividPicker.oklch { hueSteps = hueSteps, luminanceSteps = lSteps, label = always "Oklch" }
+        , VividPicker.okhsl { hueSteps = hueSteps, luminanceSteps = lSteps, label = always "Okhsl" }
         , Oklch.view
         ]
             |> List.map Html.Styled.toUnstyled

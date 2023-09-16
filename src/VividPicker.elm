@@ -5,14 +5,19 @@ module VividPicker exposing (hsl, hsluv, okhsl, okhsl_port, oklch)
 
 import Css exposing (..)
 import HSLuv
-import Html.Styled exposing (Html, div)
+import Html.Styled exposing (Html, div, text)
 import Html.Styled.Attributes exposing (css)
 import Okhsl exposing (Okhsl)
 import Oklch
 
 
-hsl : { hueSteps : Int, lightnessSteps : Int } -> Html msg
-hsl { hueSteps, lightnessSteps } =
+hsl :
+    { hueSteps : Int
+    , lightnessSteps : Int
+    , label : Color -> String
+    }
+    -> Html msg
+hsl { hueSteps, lightnessSteps, label } =
     let
         lSteps =
             reverseRange 0 1 (1 / toFloat lightnessSteps)
@@ -25,11 +30,17 @@ hsl { hueSteps, lightnessSteps } =
         , colorGrid =
             range 0 359 (360 / toFloat hueSteps)
                 |> List.map toHslSteps
+        , label = label
         }
 
 
-hsluv : { hueSteps : Int, lightnessSteps : Int } -> Html msg
-hsluv { hueSteps, lightnessSteps } =
+hsluv :
+    { hueSteps : Int
+    , lightnessSteps : Int
+    , label : Color -> String
+    }
+    -> Html msg
+hsluv { hueSteps, lightnessSteps, label } =
     let
         lSteps =
             reverseRange 0 1 (1 / toFloat lightnessSteps)
@@ -48,11 +59,17 @@ hsluv { hueSteps, lightnessSteps } =
         , colorGrid =
             range 0 359 (360 / toFloat hueSteps)
                 |> List.map toHslSteps
+        , label = label
         }
 
 
-oklch : { hueSteps : Int, luminanceSteps : Int } -> Html msg
-oklch { hueSteps, luminanceSteps } =
+oklch :
+    { hueSteps : Int
+    , luminanceSteps : Int
+    , label : Color -> String
+    }
+    -> Html msg
+oklch { hueSteps, luminanceSteps, label } =
     let
         lSteps =
             reverseRange 0 1 (1 / toFloat luminanceSteps)
@@ -65,11 +82,17 @@ oklch { hueSteps, luminanceSteps } =
         , colorGrid =
             range 0 359 (360 / toFloat hueSteps)
                 |> List.map toOklchSteps
+        , label = label
         }
 
 
-okhsl : { hueSteps : Int, luminanceSteps : Int } -> Html msg
-okhsl { hueSteps, luminanceSteps } =
+okhsl :
+    { hueSteps : Int
+    , luminanceSteps : Int
+    , label : Color -> String
+    }
+    -> Html msg
+okhsl { hueSteps, luminanceSteps, label } =
     let
         lSteps =
             reverseRange 0 1 (1 / toFloat luminanceSteps)
@@ -82,16 +105,31 @@ okhsl { hueSteps, luminanceSteps } =
         , colorGrid =
             range 0 359 (360 / toFloat hueSteps)
                 |> List.map toOkhslSteps
+        , label = label
         }
 
 
-okhsl_port : List Color -> List (List Color) -> Html msg
-okhsl_port monoSteps colorGrid =
-    vividPicker { monoSteps = monoSteps, colorGrid = colorGrid }
+okhsl_port :
+    { monoSteps : List Color
+    , colorGrid : List (List Color)
+    , label : Color -> String
+    }
+    -> Html msg
+okhsl_port { monoSteps, colorGrid, label } =
+    vividPicker
+        { monoSteps = monoSteps
+        , colorGrid = colorGrid
+        , label = label
+        }
 
 
-vividPicker : { monoSteps : List Color, colorGrid : List (List Color) } -> Html msg
-vividPicker { monoSteps, colorGrid } =
+vividPicker :
+    { monoSteps : List Color
+    , colorGrid : List (List Color)
+    , label : Color -> String
+    }
+    -> Html msg
+vividPicker { monoSteps, colorGrid, label } =
     let
         grid =
             monoSteps :: colorGrid
@@ -111,19 +149,23 @@ vividPicker { monoSteps, colorGrid } =
             , property "grid-auto-flow" "column"
             ]
         ]
-        (List.map cell (List.concat grid))
+        (List.map (cell label) (List.concat grid))
 
 
-cell : ColorValue compatible -> Html msg
-cell color =
+cell : (ColorValue compatible -> String) -> ColorValue compatible -> Html msg
+cell label color_ =
     div
         [ css
             [ padding2 (px 1) zero
-            , backgroundColor color
+            , displayFlex
+            , alignItems center
+            , justifyContent center
             , fontFamily sansSerif
+            , fontSize (em 0.8)
+            , backgroundColor color_
             ]
         ]
-        []
+        [ text (label color_) ]
 
 
 
