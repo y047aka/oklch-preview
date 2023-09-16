@@ -5,7 +5,6 @@ import Css exposing (..)
 import Html.Styled exposing (header, input, label, text)
 import Html.Styled.Attributes exposing (css, type_, value)
 import Html.Styled.Events exposing (onInput)
-import Oklch
 import String exposing (toInt)
 import VividPicker
 
@@ -74,7 +73,6 @@ view { hueSteps, lSteps } =
             ]
         , VividPicker.oklch { hueSteps = hueSteps, luminanceSteps = lSteps, label = always "Oklch" }
         , VividPicker.okhsl { hueSteps = hueSteps, luminanceSteps = lSteps, label = always "Okhsl" }
-        , Oklch.view
         ]
             |> List.map Html.Styled.toUnstyled
     }

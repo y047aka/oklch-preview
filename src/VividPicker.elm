@@ -142,7 +142,7 @@ vividPicker { monoSteps, colorGrid, label } =
     in
     div
         [ css
-            [ minHeight (px 400)
+            [ minHeight (px 500)
             , property "display" "grid"
             , property "grid-template-columns" gridTemplateColumns
             , property "grid-template-rows" gridTemplateRows
