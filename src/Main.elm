@@ -73,12 +73,12 @@ view { hueSteps, lSteps, showLabel } =
     , body =
         [ header [ css [ padding2 (px 10) zero, displayFlex, property "column-gap" "1em" ] ]
             [ label [ css [ displayFlex, alignItems center, property "column-gap" "0.5em" ] ]
-                [ text "hue"
-                , input [ type_ "number", value (String.fromInt hueSteps), onInput UpdateHueSteps ] []
+                [ text ("hue : " ++ String.fromInt hueSteps)
+                , input [ type_ "range", value (String.fromInt hueSteps), Attributes.min "1", Attributes.max "360", onInput UpdateHueSteps ] []
                 ]
             , label [ css [ displayFlex, alignItems center, property "column-gap" "5px" ] ]
-                [ text "lightness / luminance"
-                , input [ type_ "number", value (String.fromInt lSteps), onInput UpdateLSteps ] []
+                [ text ("L : " ++ String.fromInt lSteps)
+                , input [ type_ "range", value (String.fromInt lSteps), Attributes.min "1", Attributes.max "150", onInput UpdateLSteps ] []
                 ]
             , label [ css [ displayFlex, alignItems center, property "column-gap" "5px" ] ]
                 [ input [ type_ "checkbox", Attributes.checked showLabel, onInput ToggleLabel ] []
