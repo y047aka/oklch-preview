@@ -142,7 +142,7 @@ vividPicker { monoSteps, colorGrid, label } =
     in
     div
         [ css
-            [ minHeight (px 500)
+            [ minHeight (px 400)
             , property "display" "grid"
             , property "grid-template-columns" gridTemplateColumns
             , property "grid-template-rows" gridTemplateRows
@@ -156,13 +156,15 @@ cell : (ColorValue compatible -> String) -> ColorValue compatible -> Html msg
 cell label color_ =
     div
         [ css
-            [ padding2 (px 1) zero
-            , displayFlex
-            , alignItems center
-            , justifyContent center
-            , fontFamily sansSerif
-            , fontSize (em 0.8)
-            , backgroundColor color_
+            [ backgroundColor color_
+            , pseudoClass "not(:empty)"
+                [ padding2 (px 15) zero
+                , displayFlex
+                , alignItems center
+                , justifyContent center
+                , fontFamily sansSerif
+                , fontSize (em 0.8)
+                ]
             ]
         ]
         [ text (label color_) ]
