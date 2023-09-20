@@ -85,28 +85,8 @@ view { hueSteps, lSteps, showLabel } =
                 , text "show label"
                 ]
             ]
-        , VividPicker.oklch
-            { hueSteps = hueSteps
-            , luminanceSteps = lSteps
-            , label =
-                \_ ->
-                    if showLabel then
-                        "Oklch"
-
-                    else
-                        ""
-            }
-        , VividPicker.okhsl
-            { hueSteps = hueSteps
-            , luminanceSteps = lSteps
-            , label =
-                \_ ->
-                    if showLabel then
-                        "Okhsl"
-
-                    else
-                        ""
-            }
+        , VividPicker.oklch { hueSteps = hueSteps, luminanceSteps = lSteps, showLabel = showLabel }
+        , VividPicker.okhsl { hueSteps = hueSteps, luminanceSteps = lSteps, showLabel = showLabel }
         ]
             |> List.map Html.Styled.toUnstyled
     }
