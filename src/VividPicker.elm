@@ -172,10 +172,10 @@ range lo hi step =
 rangeHelp : Float -> Float -> Float -> List Float -> List Float
 rangeHelp lo hi step list =
     if lo <= hi then
-        rangeHelp lo (hi - step) step (hi :: list)
+        rangeHelp (lo + step) hi step (lo :: list)
 
     else
-        list
+        List.reverse list
 
 
 reverseRange : Float -> Float -> Float -> List Float
