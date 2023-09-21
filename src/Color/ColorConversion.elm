@@ -1,4 +1,4 @@
-module ColorConversion exposing (okhslToSrgb, srgbToOkhsl)
+module Color.ColorConversion exposing (okhslToSrgb, srgbToOkhsl)
 
 
 srgbTransferFunction : Float -> Float

@@ -1,4 +1,4 @@
-module Oklch exposing (Oklch, oklch)
+module Color.Oklch exposing (Oklch, oklch)
 
 import Css exposing (Color)
 

@@ -1,9 +1,9 @@
 module Color exposing (Color(..), toCssColor, toString, toStringIf)
 
+import Color.Okhsl as Okhsl
+import Color.Oklch as Oklch
 import Css
 import HSLuv
-import Okhsl
-import Oklch
 
 
 type Color

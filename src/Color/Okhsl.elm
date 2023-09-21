@@ -1,6 +1,6 @@
-module Okhsl exposing (Okhsl, okhslToSrgb, srgbToOkhsl, toCssColor)
+module Color.Okhsl exposing (Okhsl, okhslToSrgb, srgbToOkhsl, toCssColor)
 
-import ColorConversion
+import Color.ColorConversion as ColorConversion
 import Css exposing (Color)
 
 
