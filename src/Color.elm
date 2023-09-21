@@ -10,7 +10,8 @@ type Color
     = HSL Hue Saturation Lightness
     | HSLuv Hue Saturation Lightness
     | Oklch Luminance Chroma Hue
-    | Okhsl Hue Saturation Lightness
+    | OkhslWithRGB Hue Saturation Lightness
+    | OkhslWithOklab Hue Saturation Lightness
 
 
 type alias Hue =
@@ -48,9 +49,13 @@ toCssColor color =
         Oklch l c h ->
             Oklch.oklch l c h
 
-        Okhsl h s l ->
+        OkhslWithRGB h s l ->
             Okhsl.Okhsl h s l 1
-                |> Okhsl.toCssColor
+                |> Okhsl.toCssColor_RGB
+
+        OkhslWithOklab h s l ->
+            Okhsl.Okhsl h s l 1
+                |> Okhsl.toCssColor_Oklab
 
 
 toString : Color -> String
@@ -69,7 +74,10 @@ toString color =
         Oklch l c h ->
             "oklch (" ++ (toString_ <| l * 100) ++ "%, " ++ String.fromFloat c ++ ", " ++ toString_ h ++ ")"
 
-        Okhsl h s l ->
+        OkhslWithRGB h s l ->
+            "okhsl (" ++ (toString_ <| h * 360) ++ ", " ++ (toString_ <| s * 100) ++ "%, " ++ (toString_ <| l * 100) ++ "%)"
+
+        OkhslWithOklab h s l ->
             "okhsl (" ++ (toString_ <| h * 360) ++ ", " ++ (toString_ <| s * 100) ++ "%, " ++ (toString_ <| l * 100) ++ "%)"
 
 

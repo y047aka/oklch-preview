@@ -1,4 +1,4 @@
-module Color.ColorConversion exposing (okhslToSrgb, srgbToOkhsl)
+module Color.ColorConversion exposing (okhslToOklab, okhslToSrgb, srgbToOkhsl)
 
 
 srgbTransferFunction : Float -> Float
@@ -522,3 +522,55 @@ srgbToOkhsl ( r, g, b ) =
             toe lightness
     in
     ( h, s, l )
+
+
+
+-- CUSTOMIZED
+
+
+okhslToOklab : ( Float, Float, Float ) -> ( Float, Float, Float )
+okhslToOklab ( h, s, l ) =
+    if l == 1 then
+        ( 255, 255, 255 )
+
+    else if l == 0 then
+        ( 0, 0, 0 )
+
+    else
+        let
+            ( a_, b_, lightness ) =
+                ( cos (2 * pi * h)
+                , sin (2 * pi * h)
+                , toeInv l
+                )
+
+            ( c_0, c_mid, c_max ) =
+                getCs ( lightness, a_, b_ )
+
+            ( t, k_0, k_1 ) =
+                if s < 0.8 then
+                    ( 1.25 * s
+                    , 0
+                    , 0.8 * c_0
+                    )
+
+                else
+                    ( 5 * (s - 0.8)
+                    , c_mid
+                    , (0.2 * c_mid * c_mid * 1.25 * 1.25) / c_0
+                    )
+
+            k_2 =
+                if s < 0.8 then
+                    1 - k_1 / c_mid
+
+                else
+                    1 - k_1 / (c_max - c_mid)
+
+            chroma =
+                k_0 + (t * k_1) / (1 - k_2 * t)
+        in
+        ( lightness
+        , chroma * a_
+        , chroma * b_
+        )

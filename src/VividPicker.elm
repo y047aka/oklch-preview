@@ -1,4 +1,4 @@
-module VividPicker exposing (hsl, hsluv, okhsl, okhsl_port, oklch)
+module VividPicker exposing (hsl, hsluv, okhslWithOklab, okhslWithRGB, okhsl_port, oklch)
 
 {-| A color picker for the Vivid color space.
 -}
@@ -78,22 +78,45 @@ oklch { hueSteps, luminanceSteps, showLabel } =
         }
 
 
-okhsl :
+okhslWithRGB :
     { hueSteps : Int
     , luminanceSteps : Int
     , showLabel : Bool
     }
     -> Html msg
-okhsl { hueSteps, luminanceSteps, showLabel } =
+okhslWithRGB { hueSteps, luminanceSteps, showLabel } =
     let
         lSteps =
             reverseRange 0 1 (1 / toFloat luminanceSteps)
 
         toOkhslSteps hue =
-            List.map (\l -> Okhsl (hue / 360) 1 l) lSteps
+            List.map (\l -> OkhslWithRGB (hue / 360) 1 l) lSteps
     in
     vividPicker
-        { monoSteps = List.map (\l -> Okhsl 0 0 l) lSteps
+        { monoSteps = List.map (\l -> OkhslWithRGB 0 0 l) lSteps
+        , colorGrid =
+            range 0 359 (360 / toFloat hueSteps)
+                |> List.map toOkhslSteps
+        , showLabel = showLabel
+        }
+
+
+okhslWithOklab :
+    { hueSteps : Int
+    , luminanceSteps : Int
+    , showLabel : Bool
+    }
+    -> Html msg
+okhslWithOklab { hueSteps, luminanceSteps, showLabel } =
+    let
+        lSteps =
+            reverseRange 0 1 (1 / toFloat luminanceSteps)
+
+        toOkhslSteps hue =
+            List.map (\l -> OkhslWithOklab (hue / 360) 1 l) lSteps
+    in
+    vividPicker
+        { monoSteps = List.map (\l -> OkhslWithOklab 0 0 l) lSteps
         , colorGrid =
             range 0 359 (360 / toFloat hueSteps)
                 |> List.map toOkhslSteps
