@@ -531,7 +531,7 @@ srgbToOkhsl ( r, g, b ) =
 okhslToOklab : ( Float, Float, Float ) -> ( Float, Float, Float )
 okhslToOklab ( h, s, l ) =
     if l == 1 then
-        ( 255, 255, 255 )
+        ( 1, 0, 0 )
 
     else if l == 0 then
         ( 0, 0, 0 )
