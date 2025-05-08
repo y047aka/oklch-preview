@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y curl \
     && gunzip elm.gz \
     && chmod +x elm \
     && mv elm /usr/local/bin/ \
-    && npm install --global elm-format@latest elm-watch@latest run-pty@latest esbuild@latest \
+    && npm install --global elm-format@latest \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /home/$USERNAME/.elm \
     && chown $USERNAME:$USERNAME /home/$USERNAME/.elm
