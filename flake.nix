@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -9,11 +9,10 @@
       let pkgs = nixpkgs.legacyPackages.${system};
       in {
         devShells.default = with pkgs;
-          with elmPackages;
           mkShell {
             buildInputs = [
               nushell
-              nodejs
+              nodejs_24
             ];
 
             shellHook = ''
