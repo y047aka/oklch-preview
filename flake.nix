@@ -12,8 +12,13 @@
           with elmPackages;
           mkShell {
             buildInputs = [
+              nushell
               nodejs
             ];
+
+            shellHook = ''
+              exec nu
+            '';
           };
       });
 }
