@@ -11,13 +11,8 @@
         devShells.default = with pkgs;
           mkShell {
             buildInputs = [
-              nushell
               nodejs_24
             ];
-
-            shellHook = ''
-              exec nu
-            '';
           };
       });
 }
